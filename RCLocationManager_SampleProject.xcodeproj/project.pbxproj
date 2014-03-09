@@ -59,6 +59,7 @@
 		FA154C4915EC04DA005F960D /* BlocksExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlocksExampleViewController.h; sourceTree = "<group>"; };
 		FA154C4A15EC04DA005F960D /* BlocksExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlocksExampleViewController.m; sourceTree = "<group>"; };
 		FA154C4B15EC04DA005F960D /* BlocksExampleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlocksExampleViewController.xib; sourceTree = "<group>"; };
+		FA7CC19118CC96EB0069C2E8 /* LocationConvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationConvert.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +82,7 @@
 		4A49983E15D67C9500FE73B1 /* RCLocationManager */ = {
 			isa = PBXGroup;
 			children = (
+				FA7CC19118CC96EB0069C2E8 /* LocationConvert.h */,
 				4A49983F15D67C9500FE73B1 /* RCLocationManager.h */,
 				4A49984015D67C9500FE73B1 /* RCLocationManager.m */,
 			);
