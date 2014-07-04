@@ -391,7 +391,14 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
 
 + (BOOL)locationServicesEnabled
 {
-    return [CLLocationManager locationServicesEnabled];
+  if ([CLLocationManager locationServicesEnabled] == NO) {
+		return NO;
+	} else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+    return NO;
+  } else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
+    return NO;
+  }
+  return YES;
 }
 
 + (BOOL)regionMonitoringAvailable
