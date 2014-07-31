@@ -15,7 +15,6 @@
  */
 
 #import "RCLocationManager.h"
-#import "LocationConvert.h"
 
 #define MAX_MONITORING_REGIONS 20
 
@@ -310,17 +309,11 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
         return;
     }
   
-    CLLocationCoordinate2D newLocationCoord = convertIfNeed(newLocation.coordinate);
-    CLLocation *realLocation = [[CLLocation alloc] initWithCoordinate:newLocationCoord
-                                                            altitude:newLocation.altitude
-                                                  horizontalAccuracy:newLocation.horizontalAccuracy
-                                                    verticalAccuracy:newLocation.verticalAccuracy
-                                                           timestamp:newLocation.timestamp];
     // Store user location locally
-    _location = realLocation;
+    _location = newLocation;
     
-    if (realLocation.horizontalAccuracy <= manager.desiredAccuracy || _isOnlyOneRefresh == NO) {
-        NSLog(@"[%@] locationManager:didUpdateToLocation:fromLocation: %@", NSStringFromClass([self class]), realLocation);
+    if (_location.horizontalAccuracy <= manager.desiredAccuracy || _isOnlyOneRefresh == NO) {
+        NSLog(@"[%@] locationManager:didUpdateToLocation:fromLocation: %@", NSStringFromClass([self class]), _location);
         
         if (_isOnlyOneRefresh) {
             // Stop querying timer because accurate location was obtained
@@ -331,17 +324,17 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
         
         // Call location block
         if (self.locationBlock != nil) {
-            self.locationBlock(manager, realLocation, oldLocation);
+            self.locationBlock(manager, _location, oldLocation);
         }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:RCLocationManagerUserLocationDidChangeNotification
                                                             object:self
                                                           userInfo:(
-                                                                    [NSDictionary dictionaryWithObject:realLocation
+                                                                    [NSDictionary dictionaryWithObject:_location
                                                                                                 forKey:RCLocationManagerNotificationLocationUserInfoKey])];
         
         if ([self.delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
-            [self.delegate locationManager:self didUpdateToLocation:realLocation fromLocation:oldLocation];
+            [self.delegate locationManager:self didUpdateToLocation:_location fromLocation:oldLocation];
         }
 	}
 }
