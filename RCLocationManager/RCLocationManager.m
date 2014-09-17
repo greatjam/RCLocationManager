@@ -287,7 +287,7 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-	NSLog(@"[%@] locationManager:didFailWithError:%@", NSStringFromClass([self class]), error);
+    NSLog(@"[%@] locationManager:didFailWithError:%@", NSStringFromClass([self class]), error);
     
     // Call location block
     if (self.errorLocationBlock != nil) {
@@ -308,7 +308,7 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
         NSLog(@"locationManager didUpdateToLocation with timestamp %@ which is to old to use", newLocation.timestamp);
         return;
     }
-  
+    
     // Store user location locally
     _location = newLocation;
     
@@ -336,7 +336,7 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
         if ([self.delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
             [self.delegate locationManager:self didUpdateToLocation:_location fromLocation:oldLocation];
         }
-	}
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
@@ -360,7 +360,7 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
     if (self.regionBlock != nil) {
         self.regionBlock(manager, region, NO);
     }
-	
+    
     if ([self.delegate respondsToSelector:@selector(locationManager:didExitRegion:)]) {
         [self.delegate locationManager:self didExitRegion:region];
     }
@@ -370,7 +370,7 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
 - (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error
 {
     NSLog(@"[%@] locationManager:monitoringDidFailForRegion:%@: %@", NSStringFromClass([self class]), region.identifier, error);
-	
+    
     if (self.errorRegionBlock != nil) {
         self.errorRegionBlock(manager, region, error);
     }
@@ -384,14 +384,14 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
 
 + (BOOL)locationServicesEnabled
 {
-  if ([CLLocationManager locationServicesEnabled] == NO) {
-		return NO;
-	} else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
-    return NO;
-  } else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
-    return NO;
-  }
-  return YES;
+    if ([CLLocationManager locationServicesEnabled] == NO) {
+        return NO;
+    } else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied) {
+        return NO;
+    } else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted) {
+        return NO;
+    }
+    return YES;
 }
 
 + (BOOL)regionMonitoringAvailable
@@ -412,7 +412,9 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
 - (void)startUpdatingLocation
 {
     NSLog(@"[%@] startUpdatingLocation:", NSStringFromClass([self class]));
-    
+    if ([self.userLocationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        [self.userLocationManager requestAlwaysAuthorization];
+    }
     _isUpdatingUserLocation = YES;
     [self.userLocationManager startUpdatingLocation];
 }
@@ -434,13 +436,13 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
 -(void)stopQueryingTimer
 {
     if (_queryingTimer)
-	{
-		if ([_queryingTimer isValid])
-		{
-			[_queryingTimer invalidate];
-		}
-		_queryingTimer = nil;
-	}
+    {
+        if ([_queryingTimer isValid])
+        {
+            [_queryingTimer invalidate];
+        }
+        _queryingTimer = nil;
+    }
 }
 
 -(void)queryingTimerPassed
