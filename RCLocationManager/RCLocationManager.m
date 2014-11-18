@@ -412,8 +412,8 @@ NSString * const RCLocationManagerNotificationLocationUserInfoKey = @"newLocatio
 - (void)startUpdatingLocation
 {
     NSLog(@"[%@] startUpdatingLocation:", NSStringFromClass([self class]));
-    if ([self.userLocationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-        [self.userLocationManager requestAlwaysAuthorization];
+    if ([self.userLocationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.userLocationManager requestWhenInUseAuthorization];
     }
     _isUpdatingUserLocation = YES;
     [self.userLocationManager startUpdatingLocation];
